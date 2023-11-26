@@ -37,13 +37,13 @@ def split_digits_in_img(img_array, x_list, y_list):
         y_list.append(char_int[img_filename[i]])
         #print(char_int[img_filename[i]])
 
-img_filenames= os.listdir(data_file+ 'train_data')
+img_filenames= os.listdir(data_file+ 'concert_train')
 #print(img_filenames)
 
 for img_filename in img_filenames:
     if '.png' not in img_filename:
         continue
-    img= load_img(data_file+'train_data/{0}'.format(img_filename), color_mode= 'grayscale')
+    img= load_img(data_file+'concert_train/{0}'.format(img_filename), color_mode= 'grayscale')
     img_array= img_to_array(img)
 
     #print(len(img_array[0]))
@@ -54,8 +54,8 @@ y_list= keras.utils.to_categorical(np.array(y_list)-1, num_classes= 26)
 x_train, x_test, y_train, y_test= train_test_split(x_list, y_list)
 
 
-if os.path.isfile(data_file+'cnn_model.h5'):
-    model = models.load_model(data_file+'cnn_model.h5')
+if os.path.isfile(data_file+'concert_model.h5'):
+    model = models.load_model(data_file+'concert_model.h5')
     print('Model loaded from file.')
 else:
     model = models.Sequential()
@@ -78,16 +78,15 @@ loss, accuracy = model.evaluate(np.array(x_test), np.array(y_test), verbose=0)
 print('Test loss:', loss)
 print('Test accuracy:', accuracy)
  
-model.save(data_file+'cnn_model.h5')
-'''
+model.save(data_file+'concert_model.h5')
 
+'''
 #-------------------------測試模型--------------------------------------------
 
 test_img_rows= None
 test_img_cols= None
 test_model =None
 np.set_printoptions(suppress=True, linewidth=150, precision=9, formatter={'float': '{: 0.9f}'.format})
-
 def split_digits_in_img(test_img_array):
     test_list = list()
     for i in range(digits_in_img):
